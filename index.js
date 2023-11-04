@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const jwt = require('jsonwebtoken')
 const db = require('./db')
 const connectToDatabase = require('./db')
 const User = require('./models/usermodel')
@@ -37,7 +36,7 @@ server.post('/register', async (req,res) => {
     }
 })
 
-server.post('/', async (req,res) => {
+server.post('/login', async (req,res) => {
     try {
         const { email, password } = req.body
         const user = await User.findOne({ email })
@@ -48,15 +47,15 @@ server.post('/', async (req,res) => {
             return res.status(401).json({ message: 'Password is incorrect'})
         }
 
-        const token = jwt.sign({ email: user._id }, 'your-secret-key')
-
-        res.json({ token})
     } catch (error) {
         res.status(500).json({ message: 'Error logging in.'})
     }
 })
 ;
-
+server.get('/', (req, res) => {
+    res.send('Hello, World!');
+  });
+  
 server.listen(port, () => {
     console.log('Server is running on 8000');
 })
