@@ -13,8 +13,6 @@ server.use(cors('*'))
 server.use(bodyParser.json())
 
 
-connectToDatabase()
-
 server.post('/register', async (req,res) => {
     const { username, email, phonenumber, password} = req.body;
 
